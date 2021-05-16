@@ -21,7 +21,10 @@ layout(location = 0) out vec4 color;
 
 in vec3 m_color;
 
+uniform sampler2D u_textures[3];
+
 void main()
 {
-    color = texture(0, m_color.xy).rgb;
+    int index = int(m_color.z);
+    color = texture(u_textures[index], m_color.xy);
 };

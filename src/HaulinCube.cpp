@@ -102,8 +102,8 @@ static void spin(GLFWwindow* window, double xpos, double ypos)
 {
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
-        view = glm::rotate(view, glm::radians(((float)xpos - oldX) * -.1f), glm::vec3(0, 1, 0));
-        view = glm::rotate(view, glm::radians(((float)ypos - oldY) * -.1f), glm::vec3(1, 0, 0));
+        view = glm::rotate(view, glm::radians(((float)xpos - oldX) * .1f), glm::vec3(0, 1, 0));
+        view = glm::rotate(view, glm::radians(((float)ypos - oldY) * .1f), glm::vec3(1, 0, 0));
     }
     oldX = (float)xpos;
     oldY = (float)ypos;
@@ -137,7 +137,7 @@ int main()
     std::cout << glGetString(GL_VERSION) << std::endl;
     if (glewInit() != GLEW_OK)
         std::cout << "FUCK" << std::endl;
-
+    glEnable(GL_DEPTH_TEST);
     glfwSetCursorPosCallback(window, spin);
     glDebugMessageCallback([](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
         {
@@ -149,15 +149,37 @@ int main()
             }
         }, nullptr);
 
-    float cube[48] = {
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f,  1.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,  1.5f,  0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.5f,  0.0f
+    float cube[144] = {
+        //front face
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f, // 0
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, // 1
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, // 2
+         0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  0.0f, // 3
+         //left face
+        -0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, // 4 0
+        -0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  0.0f, // 5 1
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f, // 6 4
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, // 7 5
+        //back face
+        -0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, // 8 4
+        -0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  0.0f, // 9 5
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f, //10 6
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, //11 7
+        //right face
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f, //12 2
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //13 3
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, //14 6
+         0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  0.0f, //15 7
+        //bottom face
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  2.0f, //16 0
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  2.0f, //17 2
+        -0.5f, -0.5f, -0.5f,  0.0f,  1.0f,  2.0f, //18 4
+         0.5f, -0.5f, -0.5f,  1.0f,  1.0f,  2.0f, //19 6
+        //top face
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //20 1
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  1.0f, //21 3
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  1.0f, //22 5
+         0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  1.0f, //23 7
     };
 
     float testCube[48] = {
@@ -182,18 +204,24 @@ int main()
     };
 
     unsigned int indices[3 * 6 * 2] = {
-        0, 6, 2,
-        0, 6, 4,
-        0, 2, 1,
-        1, 2, 3,
-        1, 3, 5,
-        3, 7, 5,
-        4, 5, 6,
+        //front face
+        0, 1, 3,
+        0, 2, 3,
+        //left face
         5, 6, 7,
-        2, 3, 6,
-        3, 6, 7,
-        0, 1, 4,
-        1, 4, 5
+        4, 5, 6,
+        //back face
+        8, 9, 10,
+        9, 10, 11,
+        //right face
+        12, 13, 14,
+        13, 14, 15,
+        //bottom face
+        16, 17, 18,
+        17, 18, 19,
+        //top face
+        20, 21, 22,
+        21, 22, 23
     }; 
     
     GLClearError();
@@ -209,7 +237,7 @@ int main()
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 48 * sizeof(float), cube, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 144 * sizeof(float), cube, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
@@ -244,9 +272,12 @@ int main()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texBuffer);
 
+    if (texBuffer)
+        stbi_image_free(texBuffer);
     //top texture
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, textures[1]);
+    texBuffer = stbi_load("res/textures/grassTop.png", &width, &height, &bpp, 4);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -254,8 +285,26 @@ int main()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texBuffer);
 
-    //if (texBuffer)
-        //stbi_image_free(texBuffer);
+    if (texBuffer)
+        stbi_image_free(texBuffer);
+    //bottom texture
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+    texBuffer = stbi_load("res/textures/grassBottom.png", &width, &height, &bpp, 4);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texBuffer);
+
+
+    int loc = glGetUniformLocation(shader, "u_textures");
+    int samplers[3] = { 0, 1, 2 };
+    glUniform1iv(loc, 3, samplers);
+
+    if (texBuffer)
+        stbi_image_free(texBuffer);
   
     int location = glGetUniformLocation(shader, "u_MVP");
     glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
@@ -265,7 +314,7 @@ int main()
     {
         GLClearError();
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         GLCheckError("glClear loop");
 
