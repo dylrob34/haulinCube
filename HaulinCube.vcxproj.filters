@@ -15,19 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\HaulinCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GLFW\glfw3.h">
@@ -894,25 +885,18 @@
     <ClInclude Include="include\GL\wglew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="HaulinCube.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="HaulinCube.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HaulinCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1326,5 +1310,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\Cube.shader" />
   </ItemGroup>
 </Project>

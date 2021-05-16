@@ -104,13 +104,13 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\cpp\HaulinCube\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\cpp\HaulinCube\include;D:\dev\c++\haulinCube\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\cpp\HaulinCube\dependencies\GLFW;C:\dev\cpp\HaulinCube\dependencies\GLEW;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\dev\cpp\HaulinCube\dependencies\GLFW;C:\dev\cpp\HaulinCube\dependencies\GLEW;D:\dev\c++\haulinCube\dependencies\GLFW;D:\dev\c++\haulinCube\dependencies\GLEW;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GLFW3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
@@ -145,7 +145,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\dev\cpp\HaulinCube\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\cpp\HaulinCube\include;D:\dev\c++\haulinCube\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -153,7 +153,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\cpp\HaulinCube\dependencies\GLFW;C:\dev\cpp\HaulinCube\dependencies\GLEW;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\dev\cpp\HaulinCube\dependencies\GLFW;C:\dev\cpp\HaulinCube\dependencies\GLEW;D:\dev\c++\haulinCube\dependencies\GLFW;D:\dev\c++\haulinCube\dependencies\GLEW;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GLFW3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
@@ -161,7 +161,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\glm\common.hpp" />
@@ -452,15 +451,7 @@
     <ClInclude Include="include\GL\wglew.h" />
     <ClInclude Include="include\HaulinCube.h" />
     <ClInclude Include="include\pch.h" />
-    <ClInclude Include="include\Resource.h" />
-    <ClInclude Include="include\targetver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="HaulinCube.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="HaulinCube.ico" />
-    <Image Include="small.ico" />
+    <ClInclude Include="include\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HaulinCube.cpp" />
@@ -468,6 +459,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\glm\detail\func_common.inl" />
@@ -607,6 +599,7 @@
     <None Include="include\glm\gtx\vector_query.inl" />
     <None Include="include\glm\gtx\wrap.inl" />
     <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\Cube.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
